@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>dev.js</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <script>
+    // Game Engine
+    const GameEngine = {
+      canvas: null,
+      context: null,
+      objects: [],
+      running: false,
+
+      start: function() {
+        this.canvas = document.getElementById("gameCanvas");
+        this.context = this.canvas.getContext("2d");
+
+        this.running = true;
+        this.update();
+      },
+
+      stop: function() {
+        this.running = false;
+      },
+
+      update: function() {
+        if (!this.running) return;
+
+        // Clear the canvas
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Update game logic
+        for (let object of this.objects) {
+          object.update();
+        }
+
+        // Render game objects
+        for (let object of this.objects) {
+          object.render(this.context);
+        }
+
+        requestAnimationFrame(() => this.update());
+      }
+    };
+
+    // Game Object (his name is Joe)
+    function GameObject(x, y, width, height, color) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.color = color;
+
+      this.update = function() {
+        // Update object logic
+      };
+
+      this.render = function(context) {
+        // Render object
+        context.fillStyle = this.color;
+        context.fillRect(this.x, this.y, this.width, this.height);
+      };
+    }
+
+    // Usage
+    const gameEngine = Object.create(GameEngine);
+    gameEngine.start();
+
+    const object1 = new GameObject(50, 50, 100, 100, "red");
+    const object2 = new GameObject(200, 200, 50, 50, "blue");
+
+    gameEngine.objects.push(object1);
+    gameEngine.objects.push(object2);
+
+    
+  </script>
+</body>
+</html>
