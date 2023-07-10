@@ -1,0 +1,3 @@
+UPDATES:
+
+Added full functionality of JavaScript!
